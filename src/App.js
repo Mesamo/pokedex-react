@@ -6,8 +6,8 @@ import Content from './containers/Content';
 class App extends Component {
   render() {
     return [
-      <Header/>,
-      <Content/>
+      <Header key="header"/>,
+      <Content key="content"/>
     ];
   }
 }
