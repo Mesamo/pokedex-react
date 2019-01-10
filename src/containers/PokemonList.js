@@ -2,18 +2,12 @@ import React, { PureComponent } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import PokemonCard from '../components/PokemonCard';
-import { fetchData } from '../database/pokemons-db';
 
 class PokemonList extends PureComponent {
 
   constructor(props) {
     super(props);
     this.state = { pokemons: [] };
-  }
-
-  async componentDidMount() {
-    const data = await fetchData();
-    this.setState({ pokemons: data });
   }
 
   render() {
