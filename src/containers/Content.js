@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { memo, Suspense, lazy} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import PokemonList from './PokemonList';
+const PokemonList = lazy(() => import('./PokemonList'));
 
 const styles = {
   content: {
@@ -10,19 +10,19 @@ const styles = {
   }
 };
 
-class Content extends PureComponent {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.content}>
+const Content = props => {
+  const { classes } = props;
+  return (
+    <div className={classes.content}>
+      <Suspense fallback={<div>loading</div>}>
         <PokemonList />
-      </div>
-    );
-  }
+      </Suspense>
+    </div>
+  )
 }
 
 Content.protoTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Content);
+export default memo(withStyles(styles)(Content));

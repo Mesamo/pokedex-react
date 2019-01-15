@@ -1,31 +1,30 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import PokemonCard from '../components/PokemonCard';
 
-class PokemonList extends PureComponent {
+const PokemonList = props => {
+  const [pokemons] = useState([]);
 
-  constructor(props) {
-    super(props);
-    this.state = { pokemons: [] };
-  }
+  useEffect(() => {
+    console.log('PokemonList init');
+    return () => {};
+  });
 
-  render() {
-    return (
-      <Grid container direction="row" justify="center">
-        {
-          this.state.pokemons.map(pokemon => {
-            const props = {
-              id: pokemon._id,
-              name: pokemon.name,
-              types: pokemon.types.map(type => type.name)
-            }
-            return <PokemonCard key={pokemon._id} {...props} />
-          })
-        }
-      </Grid>
-    );
-  }
+  return (
+    <Grid container direction="row" justify="center">
+      {
+        pokemons.map(pokemon => {
+          const prop = {
+            id: pokemon._id,
+            name: pokemon.name,
+            types: pokemon.types.map(type => type.name)
+          }
+          return <PokemonCard key={pokemon._id} {...prop} />
+        })
+      }
+    </Grid>
+  );
 }
 
-export default PokemonList;
+export default memo(PokemonList);

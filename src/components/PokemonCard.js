@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -50,4 +50,4 @@ PokemonCard.propTypes = {
   types: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default withStyles(styles)(PokemonCard);
+export default memo(withStyles(styles)(PokemonCard));

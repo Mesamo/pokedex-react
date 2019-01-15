@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,29 +18,27 @@ const styles = {
   }
 }
 
-class Header extends PureComponent {
-  render() {
-    const { classes } = this.props;
-    return (
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            Pokédex
-          </Typography>
-          <IconButton color="inherit">
-            <HelpIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    )
-  }
+const Header = props => {
+  const { classes } = props;
+  return (
+    <AppBar position="fixed">
+      <Toolbar>
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <MenuIcon />
+        </IconButton>
+        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+          Pokédex
+        </Typography>
+        <IconButton color="inherit">
+          <HelpIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 Header.protoTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Header)
+export default memo(withStyles(styles)(Header));
