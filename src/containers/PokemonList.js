@@ -22,15 +22,7 @@ const PokemonList = props => {
 
   return (
     <Grid container direction="row" justify="center">
-      {
-        pokemons.map(pokemon => {
-          const prop = {
-            id: pokemon.id.toString(),
-            name: pokemon.name
-          }
-          return <PokemonCard key={pokemon.id} {...prop} />
-        })
-      }
+      {pokemons.map(pokemon => <PokemonCard key={pokemon.id} id={pokemon.id} />)}
     </Grid>
   );
 }
