@@ -1,7 +1,8 @@
-import React, { memo, Suspense, lazy} from 'react';
+import React, { memo, Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import Loading from '../components/Loading';
 const PokemonList = lazy(() => import('./PokemonList'));
 
 const styles = {
@@ -14,12 +15,12 @@ const Content = props => {
   const { classes } = props;
   return (
     <div className={classes.content}>
-      <Suspense fallback={<div>loading</div>}>
+      <Suspense fallback={<Loading />}>
         <PokemonList />
       </Suspense>
     </div>
-  )
-}
+  );
+};
 
 Content.protoTypes = {
   classes: PropTypes.object.isRequired

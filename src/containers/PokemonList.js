@@ -2,25 +2,33 @@ import React, { memo, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import PokemonCard from '../components/PokemonCard';
+import { getPokemonForms } from '../services/pokemon-form';
 
 const PokemonList = props => {
-  const [pokemons] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
     console.log('PokemonList init');
-    return () => {};
-  });
+    const subscription = getPokemonForms(151).subscribe(data => {
+      const pokemonResults = data.results.map((r, i) => {
+        return { id: i + 1, ...r };
+      });
+      setPokemons(pokemonResults);
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <Grid container direction="row" justify="center">
       {
         pokemons.map(pokemon => {
           const prop = {
-            id: pokemon._id,
-            name: pokemon.name,
-            types: pokemon.types.map(type => type.name)
+            id: pokemon.id.toString(),
+            name: pokemon.name
           }
-          return <PokemonCard key={pokemon._id} {...prop} />
+          return <PokemonCard key={pokemon.id} {...prop} />
         })
       }
     </Grid>
