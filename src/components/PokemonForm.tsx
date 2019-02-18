@@ -1,20 +1,24 @@
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, { memo, FC } from 'react';
+import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 import { getPokemonForm } from '../hooks/getPokemonForm';
 import { getSpriteBackground } from '../utils/getSpriteBackground';
 
-const styles = {
+const styles = createStyles({
   sprite: {
     height: '140px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   }
-};
+});
 
-const PokemonForm = props => {
+interface PokemonFormProps extends WithStyles<typeof styles> {
+  id: number;
+  types: string[];
+}
+
+const PokemonForm: FC<PokemonFormProps> = props => {
   const { classes, id, types } = props;
   const color = getSpriteBackground(types);
   const form = getPokemonForm(id);
@@ -23,12 +27,6 @@ const PokemonForm = props => {
       <img alt="sprite_form" src={form} />
     </div>
   );
-};
-
-PokemonForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-  id: PropTypes.number.isRequired,
-  types: PropTypes.array.isRequired
 };
 
 export default memo(withStyles(styles)(PokemonForm));

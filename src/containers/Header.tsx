@@ -1,6 +1,5 @@
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, { memo, FC } from 'react';
+import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,7 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HelpIcon from '@material-ui/icons/Help';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const styles = createStyles({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
@@ -16,9 +15,11 @@ const styles = {
   title: {
     flexGrow: 1
   }
-}
+});
 
-const Header = props => {
+interface HeaderProps extends WithStyles<typeof styles> {}
+
+const Header: FC<HeaderProps> = props => {
   const { classes } = props;
   return (
     <AppBar position="fixed">
@@ -34,11 +35,7 @@ const Header = props => {
         </IconButton>
       </Toolbar>
     </AppBar>
-  )
-}
-
-Header.protoTypes = {
-  classes: PropTypes.object.isRequired
-}
+  );
+};
 
 export default memo(withStyles(styles)(Header));

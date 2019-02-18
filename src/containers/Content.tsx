@@ -1,18 +1,18 @@
-import React, { memo, Suspense, lazy } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, { memo, Suspense, lazy, FC } from 'react';
+import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 import Loading from '../components/Loading';
 const PokemonList = lazy(() => import('./PokemonList'));
 
-const styles = {
+const styles = createStyles({
   content: {
     marginTop: '64px'
   }
-};
+});
 
-const Content = props => {
-  const { classes } = props;
+interface ContentProps extends WithStyles<typeof styles> {}
+
+const Content: FC<ContentProps> = ({ classes }) => {
   return (
     <div className={classes.content}>
       <Suspense fallback={<Loading />}>
@@ -20,10 +20,6 @@ const Content = props => {
       </Suspense>
     </div>
   );
-};
-
-Content.protoTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default memo(withStyles(styles)(Content));

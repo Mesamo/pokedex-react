@@ -1,16 +1,16 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import PokemonCard from '../components/PokemonCard';
 import { getPokemonForms } from '../services/pokemon-form';
 
-const PokemonList = props => {
-  const [pokemons, setPokemons] = useState([]);
+const PokemonList: FC = props => {
+  const [pokemons, setPokemons] = useState<any[]>([]);
 
   useEffect(() => {
     console.log('PokemonList init');
-    const subscription = getPokemonForms(151).subscribe(data => {
-      const pokemonResults = data.results.map((r, i) => {
+    const subscription = getPokemonForms(1).subscribe((data: any) => {
+      const pokemonResults = data.results.map((r: any, i: number) => {
         return { id: i + 1, ...r };
       });
       setPokemons(pokemonResults);
@@ -25,6 +25,6 @@ const PokemonList = props => {
       {pokemons.map(pokemon => <PokemonCard key={pokemon.id} id={pokemon.id} />)}
     </Grid>
   );
-}
+};
 
 export default memo(PokemonList);

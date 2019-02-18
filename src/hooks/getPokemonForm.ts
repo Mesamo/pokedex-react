@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { getPokemonFormById } from '../services/pokemon-form';
 
-export function getPokemonForm(id) {
+export function getPokemonForm(id: number) {
   const [pokemonForm, setPokemonForm] = useState('');
 
   useEffect(() => {
