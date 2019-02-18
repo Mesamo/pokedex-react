@@ -6,7 +6,7 @@ import { getSpriteBackground } from '../utils/getSpriteBackground';
 
 const styles = createStyles({
   sprite: {
-    height: '140px',
+    height: 140,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'

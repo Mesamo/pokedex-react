@@ -11,8 +11,8 @@ import { getPokemon } from '../hooks/getPokemon';
 
 const styles = createStyles({
   card: {
-    width: '160px',
-    margin: '10px'
+    width: 160,
+    margin: 10
   }
 });
 

@@ -6,7 +6,7 @@ const PokemonList = lazy(() => import('./PokemonList'));
 
 const styles = createStyles({
   content: {
-    marginTop: '64px'
+    marginTop: 64
   }
 });
 
