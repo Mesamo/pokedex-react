@@ -9,6 +9,13 @@ const styles = createStyles({
 });
 
 interface PokemonNameProps extends WithStyles<typeof styles> {
+
+  /**
+   * Pokemon name
+   *
+   * @type {string}
+   * @memberof PokemonNameProps
+   */
   name: string;
 }
 

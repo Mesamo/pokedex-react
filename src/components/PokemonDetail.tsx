@@ -5,7 +5,20 @@ import Modal from '@material-ui/core/Modal';
 const styles = createStyles({});
 
 interface PokemonDetailProps extends WithStyles<typeof styles> {
+
+  /**
+   * If true, the detail is open
+   *
+   * @type {boolean}
+   * @memberof PokemonDetailProps
+   */
   open: boolean;
+
+  /**
+   * Callback function when detail closed
+   *
+   * @memberof PokemonDetailProps
+   */
   handleClose: () => void
 }
 

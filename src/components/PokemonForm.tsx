@@ -14,7 +14,21 @@ const styles = createStyles({
 });
 
 interface PokemonFormProps extends WithStyles<typeof styles> {
+
+  /**
+   * Pokemon id number
+   *
+   * @type {number}
+   * @memberof PokemonFormProps
+   */
   id: number;
+
+  /**
+   * Pokemon types
+   *
+   * @type {string[]}
+   * @memberof PokemonFormProps
+   */
   types: string[];
 }
 

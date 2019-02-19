@@ -17,6 +17,12 @@ const styles = createStyles({
 });
 
 interface PokemonCardProps extends WithStyles<typeof styles> {
+  /**
+   * Pokemon id number
+   *
+   * @type {number}
+   * @memberof PokemonCardProps
+   */
   id: number;
 }
 
