@@ -30,9 +30,7 @@ const PokemonCard: FC<PokemonCardProps> = props => {
   const { classes, id } = props;
   const { name, types } = getPokemon(id);
 
-  const handleClick = () => {
-    console.log('click');
-  };
+  const handleClick = () => {};
 
   return (
     <Grow in={true}>

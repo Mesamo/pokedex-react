@@ -1,8 +1,5 @@
-import React, { memo, Suspense, lazy, FC } from 'react';
+import React, { memo, FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
-
-import Loading from '../components/Loading';
-const PokemonList = lazy(() => import('./PokemonList'));
 
 const styles = createStyles({
   content: {
@@ -12,12 +9,10 @@ const styles = createStyles({
 
 interface ContentProps extends WithStyles<typeof styles> {}
 
-const Content: FC<ContentProps> = ({ classes }) => {
+const Content: FC<ContentProps> = ({ classes, children }) => {
   return (
     <div className={classes.content}>
-      <Suspense fallback={<Loading />}>
-        <PokemonList />
-      </Suspense>
+      {children}
     </div>
   );
 };
