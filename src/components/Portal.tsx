@@ -1,26 +1,20 @@
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 interface PortalProps {
+  containerId: string;
 }
 
-const Portal: React.FC<PortalProps> = props => {
-  const { children } = props;
-  console.log('renderer');
-  const root = document.getElementById('modal');
+const Portal: React.FC<PortalProps> = ({ children, containerId }) => {
+  const root = document.getElementById(containerId);
   const container = document.createElement('div');
   useEffect(() => {
-    if (root) {
-      root.appendChild(container);
-    }
+    root && root.appendChild(container);
     return () => {
-      if (root) {
-        root.removeChild(container);
-      }
+      root && root.removeChild(container);
     };
   }, []);
-
   return ReactDOM.createPortal(children, container);
 };
 
-export default memo(Portal);
+export default Portal;
