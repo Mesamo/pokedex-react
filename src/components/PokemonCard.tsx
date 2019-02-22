@@ -1,4 +1,5 @@
 import React, { memo, FC } from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
 import Card from '@material-ui/core/Card';
@@ -13,6 +14,9 @@ const styles = createStyles({
   card: {
     width: 160,
     margin: 10
+  },
+  link: {
+    textDecoration: 'none'
   }
 });
 
@@ -30,17 +34,17 @@ const PokemonCard: FC<PokemonCardProps> = props => {
   const { classes, id } = props;
   const { name, types } = getPokemon(id);
 
-  const handleClick = () => {};
-
   return (
     <Grow in={true}>
       <Card className={classes.card}>
-        <CardActionArea onClick={handleClick}>
-          <PokemonForm id={id} types={types} />
-          <CardContent>
-            <PokemonName name={name} />
-          </CardContent>
-        </CardActionArea>
+        <Link to={{ pathname: '/detail', state: { id, types }}} className={classes.link}>
+          <CardActionArea>
+            <PokemonForm id={id} types={types} />
+            <CardContent>
+              <PokemonName name={name} />
+            </CardContent>
+          </CardActionArea>
+        </Link>
       </Card>
     </Grow>
   );

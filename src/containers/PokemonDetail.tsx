@@ -1,4 +1,5 @@
 import React, { memo, FC } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom';
@@ -23,55 +24,40 @@ const styles = createStyles({
     position: 'fixed',
     top: 10,
     left: 10
+  },
+  link: {
+    color: '#FFF'
   }
 });
 
-interface PokemonDetailProps extends RouteComponentProps, WithStyles<typeof styles> {
-
-  /**
-   * Callback function when detail closed
-   *
-   * @memberof PokemonDetailProps
-   */
-  handleClose?: () => void;
-
-  /**
-   * Pokemon id number
-   *
-   * @type {number}
-   * @memberof PokemonFormProps
-   */
-  id?: number;
-
-  /**
-   * Pokemon types
-   *
-   * @type {string[]}
-   * @memberof PokemonFormProps
-   */
-  types?: string[];
+export class DetailLocationState {
+  constructor(public id: number, public types: string[]) {}
 }
 
+interface PokemonDetailProps
+  extends RouteComponentProps<any, any, DetailLocationState>, WithStyles<typeof styles> {}
+
 const PokemonDetail: FC<PokemonDetailProps> = props => {
-  const { handleClose, classes, types } = props;
-  const color = getSpriteBackground([]);
+  const { location, classes } = props;
+
+  if (!location.state) {
+    return <Redirect to="/" />;
+  }
+
+  const color = getSpriteBackground(location.state.types);
 
   return (
     <Zoom in={true} timeout={10}>
       <div className={classes.modal} style={{ background: color }}>
-        <div>qweqwe</div>
-        <IconButton className={classes.back} onClick={handleClose} color="inherit" aria-label="Back">
-          <BackspaceIcon />
-        </IconButton>
+        <div>{location.state.id}</div>
+        <Link to="/" className={classes.link}>
+          <IconButton className={classes.back} color="inherit" aria-label="Back">
+            <BackspaceIcon />
+          </IconButton>
+        </Link>
       </div>
     </Zoom>
   );
 };
-
-PokemonDetail.defaultProps = {
-  handleClose: () => {}
-};
-
-const b = memo(withRouter(withStyles(styles)(PokemonDetail)));
 
 export default memo(withRouter(withStyles(styles)(PokemonDetail)));
