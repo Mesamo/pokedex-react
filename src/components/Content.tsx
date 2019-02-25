@@ -1,4 +1,4 @@
-import React, { memo, FC } from 'react';
+import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 const styles = createStyles({
@@ -17,4 +17,4 @@ const Content: FC<ContentProps> = ({ classes, children }) => {
   );
 };
 
-export default memo(withStyles(styles)(Content));
+export default withStyles(styles)(Content);

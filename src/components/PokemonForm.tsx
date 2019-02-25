@@ -1,4 +1,4 @@
-import React, { memo, FC } from 'react';
+import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 import { getPokemonForm } from '../hooks/getPokemonForm';
@@ -43,4 +43,4 @@ const PokemonForm: FC<PokemonFormProps> = props => {
   );
 };
 
-export default memo(withStyles(styles)(PokemonForm));
+export default withStyles(styles)(PokemonForm);

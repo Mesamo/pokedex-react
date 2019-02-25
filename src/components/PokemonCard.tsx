@@ -1,5 +1,4 @@
-import React, { memo, FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
 import Card from '@material-ui/core/Card';
@@ -28,26 +27,26 @@ interface PokemonCardProps extends WithStyles<typeof styles> {
    * @memberof PokemonCardProps
    */
   id: number;
+
+  handleOpen: () => void;
 }
 
 const PokemonCard: FC<PokemonCardProps> = props => {
-  const { classes, id } = props;
+  const { classes, id, handleOpen } = props;
   const { name, types } = getPokemon(id);
 
   return (
     <Grow in={true}>
       <Card className={classes.card}>
-        <Link to={{ pathname: '/detail', state: { id, types }}} className={classes.link}>
-          <CardActionArea>
-            <PokemonForm id={id} types={types} />
-            <CardContent>
-              <PokemonName name={name} />
-            </CardContent>
-          </CardActionArea>
-        </Link>
+        <CardActionArea onClick={handleOpen}>
+          <PokemonForm id={id} types={types} />
+          <CardContent>
+            <PokemonName name={name} />
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Grow>
   );
 };
 
-export default memo(withStyles(styles)(PokemonCard));
+export default withStyles(styles)(PokemonCard);

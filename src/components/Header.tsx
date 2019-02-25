@@ -1,4 +1,4 @@
-import React, { memo, FC } from 'react';
+import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -38,4 +38,4 @@ const Header: FC<HeaderProps> = props => {
   );
 };
 
-export default memo(withStyles(styles)(Header));
+export default withStyles(styles)(Header);

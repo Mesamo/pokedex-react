@@ -1,4 +1,4 @@
-import React, { memo, FC } from 'react';
+import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
@@ -28,4 +28,4 @@ const PokemonName: FC<PokemonNameProps> = props => {
   );
 };
 
-export default memo(withStyles(styles)(PokemonName));
+export default withStyles(styles)(PokemonName);
