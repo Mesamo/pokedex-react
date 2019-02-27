@@ -24,13 +24,14 @@ const styles = createStyles({
 
 interface PokemonDetailProps extends WithStyles<typeof styles> {
   open: boolean;
+  types: string[];
   handleClose: () => void;
 }
 
 const PokemonDetail: FC<PokemonDetailProps> = props => {
-  const { classes, open, handleClose } = props;
+  const { classes, open, types, handleClose } = props;
 
-  const color = getSpriteBackground([]);
+  const color = getSpriteBackground(types);
 
   const onExist = () => {
     console.log('exist');
@@ -39,6 +40,8 @@ const PokemonDetail: FC<PokemonDetailProps> = props => {
   const onEnter = () => {
     console.log('enter');
   };
+
+  console.log('renderer detail');
 
   return (
     <Dialog

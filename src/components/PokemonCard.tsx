@@ -28,17 +28,21 @@ interface PokemonCardProps extends WithStyles<typeof styles> {
    */
   id: number;
 
-  handleOpen: () => void;
+  handleOpen: (types: string[]) => void;
 }
 
 const PokemonCard: FC<PokemonCardProps> = props => {
   const { classes, id, handleOpen } = props;
   const { name, types } = getPokemon(id);
 
+  const open = () => {
+    handleOpen(types);
+  }
+
   return (
     <Grow in={true}>
       <Card className={classes.card}>
-        <CardActionArea onClick={handleOpen}>
+        <CardActionArea onClick={open}>
           <PokemonForm id={id} types={types} />
           <CardContent>
             <PokemonName name={name} />

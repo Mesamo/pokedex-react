@@ -4,8 +4,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import HelpIcon from '@material-ui/icons/Help';
 import Typography from '@material-ui/core/Typography';
+
+import Drawer from '../components/Drawer';
+import { useBoolState } from '../hooks/useBoolState';
 
 const styles = createStyles({
   menuButton: {
@@ -21,19 +23,19 @@ interface HeaderProps extends WithStyles<typeof styles> {}
 
 const Header: FC<HeaderProps> = props => {
   const { classes } = props;
+  const [ open, openFn, closeFn] = useBoolState();
+
   return (
     <AppBar position="fixed">
       <Toolbar>
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+        <IconButton className={classes.menuButton} onClick={openFn} color="inherit" aria-label="Menu">
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
           Pokédex
         </Typography>
-        <IconButton color="inherit">
-          <HelpIcon />
-        </IconButton>
       </Toolbar>
+      <Drawer open={open} onOpen={openFn} onClose={closeFn}></Drawer>
     </AppBar>
   );
 };

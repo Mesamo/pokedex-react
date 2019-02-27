@@ -1,15 +1,24 @@
 import { useState } from 'react';
 
-export function useOpenDetail(): [boolean, () => void, () => void] {
-  const [open, setOpen] = useState<boolean>(false);
+import { useBoolState } from './useBoolState';
 
-  const handleOpen = () => {
-    setOpen(true);
+export function useOpenDetail(): [
+  boolean,
+  string[],
+  (types: string[]) => void,
+  () => void
+] {
+  const [open, openFn, closeFn] = useBoolState();
+  const [types, setTypes] = useState<string[]>([]);
+
+  const handleOpen = (types: string[]) => {
+    setTypes(types);
+    openFn();
   };
 
   const handleClose = () => {
-    setOpen(false);
+    closeFn();
   };
 
-  return [open, handleOpen, handleClose];
+  return [open, types, handleOpen, handleClose];
 }
