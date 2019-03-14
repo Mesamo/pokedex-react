@@ -41,8 +41,6 @@ const PokemonDetail: FC<PokemonDetailProps> = props => {
     console.log('enter');
   };
 
-  console.log('renderer detail');
-
   return (
     <Dialog
       fullScreen

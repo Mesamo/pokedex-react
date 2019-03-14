@@ -1,29 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import Search from '../components/Search';
 import PokemonCard from '../components/PokemonCard';
 import PokemonDetail from '../components/PokemonDetail';
-import { getPokemonList } from '../hooks/getPokemonList';
 import { useOpenDetail } from '../hooks/useOpenDetail';
+import { getPokemons } from '../hooks/getPokemons';
 
 const styles = createStyles({});
 
 interface Props extends WithStyles<typeof styles> {}
 
 const PokemonList: FC<Props> = props => {
-  const pokemons = getPokemonList(5);
+  const [search, handleSearch] = useState('');
+
+  const pokemons = getPokemons(search);
 
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  const handleSearch = (value: string) => {
-    console.log(value);
-  }
-
   const pokemonCards = pokemons.map(pokemon => {
     return (
-      <PokemonCard key={pokemon.id} id={pokemon.id} handleOpen={handleOpen} />
+      <PokemonCard
+        key={pokemon.id}
+        index={pokemon.index}
+        name={pokemon.name}
+        types={pokemon.types}
+        handleOpen={handleOpen}
+      />
     );
   });
 

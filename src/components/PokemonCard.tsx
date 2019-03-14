@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 
 import PokemonForm from './PokemonForm';
 import PokemonName from './PokemonName';
-import { getPokemon } from '../hooks/getPokemon';
 
 const styles = createStyles({
   card: {
@@ -16,24 +15,47 @@ const styles = createStyles({
   },
   link: {
     textDecoration: 'none'
+  },
+  content: {
+    padding: 10
   }
 });
 
 interface PokemonCardProps extends WithStyles<typeof styles> {
   /**
-   * Pokemon id number
+   * 宝可梦编号
    *
    * @type {number}
    * @memberof PokemonCardProps
    */
-  id: number;
+  index: number;
 
+  /**
+   * 宝可梦名称
+   *
+   * @type {string}
+   * @memberof PokemonCardProps
+   */
+  name: string;
+
+  /**
+   * 宝可梦属性
+   *
+   * @type {string[]}
+   * @memberof PokemonCardProps
+   */
+  types: string[]
+
+  /**
+   * 打开详情
+   *
+   * @memberof PokemonCardProps
+   */
   handleOpen: (types: string[]) => void;
 }
 
 const PokemonCard: FC<PokemonCardProps> = props => {
-  const { classes, id, handleOpen } = props;
-  const { name, types } = getPokemon(id);
+  const { classes, index, name, types, handleOpen } = props;
 
   const open = () => {
     handleOpen(types);
@@ -43,8 +65,8 @@ const PokemonCard: FC<PokemonCardProps> = props => {
     <Grow in={true}>
       <Card className={classes.card}>
         <CardActionArea onClick={open}>
-          <PokemonForm id={id} types={types} />
-          <CardContent>
+          <PokemonForm index={index} types={types} />
+          <CardContent className={classes.content}>
             <PokemonName name={name} />
           </CardContent>
         </CardActionArea>

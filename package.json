@@ -12,10 +12,12 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "pouchdb-adapter-idb": "^7.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.5",
+    "rxdb": "^8.0.5",
     "rxjs": "^6.4.0"
   },
   "devDependencies": {

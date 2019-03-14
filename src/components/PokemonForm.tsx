@@ -16,12 +16,12 @@ const styles = createStyles({
 interface PokemonFormProps extends WithStyles<typeof styles> {
 
   /**
-   * Pokemon id number
+   * Pokemon index
    *
    * @type {number}
    * @memberof PokemonFormProps
    */
-  id: number;
+  index: number;
 
   /**
    * Pokemon types
@@ -33,9 +33,9 @@ interface PokemonFormProps extends WithStyles<typeof styles> {
 }
 
 const PokemonForm: FC<PokemonFormProps> = props => {
-  const { classes, id, types } = props;
+  const { classes, index, types } = props;
   const color = getSpriteBackground(types);
-  const url = getSpriteFormUrl(id);
+  const url = getSpriteFormUrl(index);
 
   return (
     <div className={classes.sprite} style={{ background: color }}>
