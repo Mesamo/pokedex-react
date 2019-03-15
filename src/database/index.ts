@@ -8,6 +8,10 @@ RxDB.plugin(require('pouchdb-adapter-idb'));
 
 let DB: RxDB.RxDatabase | null = null;
 
+type OrmMethods = {};
+type StaticMethods = { [key: string]: any };
+type PokemonCollection = RxDB.RxCollection<PokemonModel, OrmMethods, StaticMethods>
+
 const collectionName = 'pokemons';
 
 export async function createDB() {
@@ -21,7 +25,7 @@ export async function createDB() {
   return DB;
 }
 
-export async function getPokemonCollections() {
+export async function getPokemonCollections(): Promise<PokemonCollection> {
   const db = await createDB();
 
   if (db[collectionName]) {

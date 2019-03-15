@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Search from '../components/Search';
 import PokemonCard from '../components/PokemonCard';
 import PokemonDetail from '../components/PokemonDetail';
+import LoadMore from '../components/LoadMore';
 import { useOpenDetail } from '../hooks/useOpenDetail';
 import { getPokemons } from '../hooks/getPokemons';
 
@@ -15,11 +16,11 @@ interface Props extends WithStyles<typeof styles> {}
 const PokemonList: FC<Props> = props => {
   const [search, handleSearch] = useState('');
 
-  const pokemons = getPokemons(search);
+  const [pokes, hasMore, loadMore] = getPokemons(search);
 
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  const pokemonCards = pokemons.map(pokemon => {
+  const pokemonCards = pokes.map(pokemon => {
     return (
       <PokemonCard
         key={pokemon.id}
@@ -37,6 +38,7 @@ const PokemonList: FC<Props> = props => {
       <Grid container direction="row" justify="center">
         {pokemonCards}
       </Grid>
+      <LoadMore hasMore={hasMore} onClick={loadMore} />
       <PokemonDetail open={open} types={types} handleClose={handleClose} />
     </>
   );
