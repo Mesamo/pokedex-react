@@ -12,7 +12,8 @@ import Grow from '@material-ui/core/Grow';
 const styles = createStyles({
   form: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: 66
   },
   searchField: {
     width: '100%',

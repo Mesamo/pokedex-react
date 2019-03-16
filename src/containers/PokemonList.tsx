@@ -1,47 +1,42 @@
 import React, { FC, useState } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import Search from '../components/Search';
 import PokemonCard from '../components/PokemonCard';
 import PokemonDetail from '../components/PokemonDetail';
-import LoadMore from '../components/LoadMore';
+import Operations from '../components/Operations';
 import { useOpenDetail } from '../hooks/useOpenDetail';
-import { getPokemons } from '../hooks/getPokemons';
+import { getPokemons, PokemonDoc } from '../hooks/getPokemons';
 
-const styles = createStyles({});
-
-interface Props extends WithStyles<typeof styles> {}
-
-const PokemonList: FC<Props> = props => {
+const PokemonList: FC = () => {
   const [search, handleSearch] = useState('');
 
-  const [pokes, hasMore, loadMore] = getPokemons(search);
+  const [pokemonsChunk, loadNext, loadPrev] = getPokemons(search, 20);
 
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  const pokemonCards = pokes.map(pokemon => {
-    return (
-      <PokemonCard
-        key={pokemon.id}
-        index={pokemon.index}
-        name={pokemon.name}
-        types={pokemon.types}
-        handleOpen={handleOpen}
-      />
-    );
-  });
+  const renderCard = (pokemon: PokemonDoc) => (
+    <PokemonCard
+      key={pokemon.id}
+      index={pokemon.index}
+      name={pokemon.name}
+      types={pokemon.types}
+      handleOpen={handleOpen}
+    />
+  );
+
+  const { data: pokemons } = pokemonsChunk;
 
   return (
     <>
       <Search onSearch={handleSearch} />
       <Grid container direction="row" justify="center">
-        {pokemonCards}
+        {pokemons.map(pokemon => renderCard(pokemon))}
       </Grid>
-      <LoadMore hasMore={hasMore} onClick={loadMore} />
+      <Operations onNext={loadNext} onPrev={loadPrev} />
       <PokemonDetail open={open} types={types} handleClose={handleClose} />
     </>
   );
 };
 
-export default withStyles(styles)(PokemonList);
+export default PokemonList;

@@ -5,26 +5,25 @@ import chunk from '../utils/chunk';
 
 export default function useArrayChunk<T>(
   size: number
-): [T[], boolean, () => void, (data: T[]) => void] {
+): [ChunkModel<T>, (data: T[]) => void, () => void, () => void] {
   const initData = new ChunkModel<T>();
   const [chunkData, setChunkData] = useState(initData);
 
-  const loadMore = () => {
-    if (chunkData.chunk.length === 0) {
-      return;
+  const loadPrev = () => {
+    if (chunkData.index > 0 && chunkData.index < chunkData.chunk.length - 1) {
+      setChunkData(new ChunkModel(chunkData.chunk, chunkData.index - 1));
     }
-    if (chunkData.index < chunkData.chunk.length) {
-      const index = chunkData.index + 1;
-      const newData = new ChunkModel(chunkData.chunk, index);
-      setChunkData(newData);
+  };
+
+  const loadNext = () => {
+    if (chunkData.index < chunkData.chunk.length - 1) {
+      setChunkData(new ChunkModel(chunkData.chunk, chunkData.index + 1));
     }
   };
 
   const loadData = (data: T[]) => {
-    const chunkArray = chunk(data, size);
-    const model = new ChunkModel(chunkArray, 0);
-    setChunkData(model);
+    setChunkData(new ChunkModel(chunk(data, size), 0));
   };
 
-  return [chunkData.data, chunkData.hasMore, loadMore, loadData];
+  return [chunkData, loadData, loadNext, loadPrev];
 }

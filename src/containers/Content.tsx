@@ -3,7 +3,9 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 const styles = createStyles({
   content: {
-    marginTop: 64
+    height: '100%',
+    paddingTop: 64,
+    boxSizing: 'border-box'
   }
 });
 
