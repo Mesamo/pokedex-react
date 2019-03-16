@@ -10,7 +10,7 @@ export default function useArrayChunk<T>(
   const [chunkData, setChunkData] = useState(initData);
 
   const loadPrev = () => {
-    if (chunkData.index > 0 && chunkData.index < chunkData.chunk.length - 1) {
+    if (chunkData.index > 0 && chunkData.index < chunkData.chunk.length) {
       setChunkData(new ChunkModel(chunkData.chunk, chunkData.index - 1));
     }
   };
