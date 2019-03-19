@@ -1,39 +1,58 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import Search from '../components/Search';
 import PokemonCard from '../components/PokemonCard';
 import PokemonDetail from '../components/PokemonDetail';
-import Operations from '../components/Operations';
 import { useOpenDetail } from '../hooks/useOpenDetail';
-import { getPokemons, PokemonDoc } from '../hooks/getPokemons';
+import { getPokemons } from '../hooks/getPokemons';
+import { useVisableAreaSize } from '../hooks/useVisibleAreaSize';
 
 const PokemonList: FC = () => {
   const [search, handleSearch] = useState('');
+  const visableAreaSize = useVisableAreaSize(180, 130);
+  const [chunkSize, setChunkSize] = useState(visableAreaSize.rowSize);
 
-  const [pokemonsChunk, loadNext, loadPrev] = getPokemons(search, 20);
+  const [pokemonsChunk] = getPokemons(search, chunkSize);
 
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  const renderCard = (pokemon: PokemonDoc) => (
-    <PokemonCard
-      key={pokemon.id}
-      index={pokemon.index}
-      name={pokemon.name}
-      types={pokemon.types}
-      handleOpen={handleOpen}
-    />
-  );
-
   const { data: pokemons } = pokemonsChunk;
+
+  useEffect(() => {
+    setChunkSize(visableAreaSize.rowSize);
+  }, [visableAreaSize]);
+
+  console.log(visableAreaSize);
+
+  const renderRow = ({ index, style }: ListChildComponentProps) => (
+    <Grid container direction="row" justify="center" style={style}>
+      {pokemons[index].map(pokemon => {
+        return (
+          <PokemonCard
+            key={pokemon.id}
+            index={pokemon.index}
+            name={pokemon.name}
+            types={pokemon.types}
+            handleOpen={handleOpen}
+          />
+        );
+      })}
+    </Grid>
+  );
 
   return (
     <>
       <Search onSearch={handleSearch} />
-      <Grid container direction="row" justify="center">
-        {pokemons.map(pokemon => renderCard(pokemon))}
-      </Grid>
-      <Operations onNext={loadNext} onPrev={loadPrev} />
+      <FixedSizeList
+        height={visableAreaSize.height}
+        width={visableAreaSize.width}
+        itemCount={pokemonsChunk.length}
+        itemSize={200}
+      >
+        {renderRow}
+      </FixedSizeList>
       <PokemonDetail open={open} types={types} handleClose={handleClose} />
     </>
   );

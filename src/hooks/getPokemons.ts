@@ -10,11 +10,11 @@ export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
 export function getPokemons(
   search: string,
-  chunkSize: number = 20
-): [ChunkModel<PokemonDoc>, () => void, () => void] {
-  const [chunkData, loadData, loadNext, loadPrev] = useArrayChunk<PokemonDoc>(
-    chunkSize
-  );
+  chunkSize: number = 10
+): [ChunkModel<PokemonDoc>] {
+  const [chunkData, loadData] = useArrayChunk<
+    PokemonDoc
+  >(chunkSize);
 
   const queryOption = {
     $or: [
@@ -39,5 +39,5 @@ export function getPokemons(
     });
   }, [search]);
 
-  return [chunkData, loadNext, loadPrev];
+  return [chunkData];
 }

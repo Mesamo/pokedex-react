@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
-import Grow from '@material-ui/core/Grow';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -62,16 +61,14 @@ const PokemonCard: FC<PokemonCardProps> = props => {
   }
 
   return (
-    <Grow in={true}>
-      <Card className={classes.card}>
-        <CardActionArea onClick={open}>
-          <PokemonForm index={index} types={types} />
-          <CardContent className={classes.content}>
-            <PokemonName name={name} />
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grow>
+    <Card className={classes.card}>
+      <CardActionArea onClick={open}>
+        <PokemonForm index={index} types={types} />
+        <CardContent className={classes.content}>
+          <PokemonName name={name} />
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 
