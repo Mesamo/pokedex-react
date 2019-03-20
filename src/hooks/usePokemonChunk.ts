@@ -1,17 +1,14 @@
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { ChunkModel } from '../models/ChunkModel';
 import { useVisableAreaSize } from './useVisibleAreaSize';
 import { fetchPokemon, PokemonDoc } from './fetchPokemon';
 import chunk from '../utils/chunk';
 
-export function usePokemonChunk(): [
-  ChunkModel<PokemonDoc>,
-  Dispatch<SetStateAction<string>>,
-  number,
-  number
-] {
-  const [pokemons, handleSearch] = fetchPokemon();
+export function usePokemonChunk(
+  search: string
+): [ChunkModel<PokemonDoc>, number, number] {
+  const pokemons = fetchPokemon(search);
   const visableAreaSize = useVisableAreaSize(180, 130);
 
   const chunkData = useMemo(() => {
@@ -23,10 +20,5 @@ export function usePokemonChunk(): [
     }
   }, [pokemons, visableAreaSize]);
 
-  return [
-    chunkData,
-    handleSearch,
-    visableAreaSize.height,
-    visableAreaSize.width
-  ];
+  return [chunkData, visableAreaSize.height, visableAreaSize.width];
 }

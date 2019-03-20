@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { RxDocumentTypeWithRev } from 'rxdb';
 
 import { PokemonModel } from '../models/PokemonModel';
@@ -6,11 +6,7 @@ import { getPokemonCollections } from '../database';
 
 export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
-export function fetchPokemon(): [
-  PokemonDoc[],
-  Dispatch<SetStateAction<string>>
-] {
-  const [search, setSearch] = useState('');
+export function fetchPokemon(search: string): PokemonDoc[] {
   const [pokemons, setPokemons] = useState<PokemonDoc[]>([]);
 
   const queryOption = {
@@ -36,5 +32,5 @@ export function fetchPokemon(): [
     });
   }, [search]);
 
-  return [pokemons, setSearch];
+  return pokemons;
 }

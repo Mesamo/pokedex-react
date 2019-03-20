@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import Search from '../components/Search';
@@ -8,16 +8,22 @@ import { useOpenDetail } from '../hooks/useOpenDetail';
 import { usePokemonChunk } from '../hooks/usePokemonChunk';
 
 const PokemonList: FC = () => {
-  const [pokemonChunk, handleSearch, height, width] = usePokemonChunk();
+  const [search, setSearch] = useState('');
+  const [pokemonChunk, height, width] = usePokemonChunk(search);
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
   const renderRow = ({ index, style, data }: ListChildComponentProps) => (
-    <PokemonListRow style={style} data={data.chunk[index]} handleOpen={handleOpen} />
+    <PokemonListRow
+      style={style}
+      data={data.chunk[index]}
+      handleOpen={handleOpen}
+    />
   );
 
+  console.log('renderer');
   return (
     <>
-      <Search onSearch={handleSearch} />
+      <Search onSearch={setSearch} />
       <FixedSizeList
         height={height}
         width={width}
