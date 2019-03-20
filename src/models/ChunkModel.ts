@@ -1,11 +1,11 @@
 export class ChunkModel<T> {
-  data: T[][];
+  chunk: T[][];
 
   get length(): number {
-    return this.data.length;
+    return this.chunk.length;
   }
 
-  constructor(data: T[][] = []) {
-    this.data = data;
+  constructor(chunk: T[][] = []) {
+    this.chunk = chunk;
   }
 }

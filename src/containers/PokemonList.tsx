@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
-import Grid from '@material-ui/core/Grid';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import Search from '../components/Search';
-import PokemonCard from '../components/PokemonCard';
+import PokemonListRow from '../components/PokemonListRow';
 import PokemonDetail from '../components/PokemonDetail';
 import { useOpenDetail } from '../hooks/useOpenDetail';
 import { usePokemonChunk } from '../hooks/usePokemonChunk';
@@ -12,22 +11,8 @@ const PokemonList: FC = () => {
   const [pokemonChunk, handleSearch, height, width] = usePokemonChunk();
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  console.log('qwe');
-
-  const renderRow = ({ index, style }: ListChildComponentProps) => (
-    <Grid container direction="row" justify="center" style={style}>
-      {pokemonChunk.data[index].map(pokemon => {
-        return (
-          <PokemonCard
-            key={pokemon.id}
-            index={pokemon.index}
-            name={pokemon.name}
-            types={pokemon.types}
-            handleOpen={handleOpen}
-          />
-        );
-      })}
-    </Grid>
+  const renderRow = ({ index, style, data }: ListChildComponentProps) => (
+    <PokemonListRow style={style} data={data.chunk[index]} handleOpen={handleOpen} />
   );
 
   return (
@@ -37,6 +22,7 @@ const PokemonList: FC = () => {
         height={height}
         width={width}
         itemCount={pokemonChunk.length}
+        itemData={pokemonChunk}
         itemSize={200}
       >
         {renderRow}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { RxDocumentTypeWithRev } from 'rxdb';
 
 import { PokemonModel } from '../models/PokemonModel';
@@ -6,9 +6,12 @@ import { getPokemonCollections } from '../database';
 
 export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
-export function fetchPokemon(): [PokemonDoc[], React.Dispatch<React.SetStateAction<string>>] {
+export function fetchPokemon(): [
+  PokemonDoc[],
+  Dispatch<SetStateAction<string>>
+] {
   const [search, setSearch] = useState('');
-  const [pokemons, setPokemons] = useState<PokemonDoc[]>([])
+  const [pokemons, setPokemons] = useState<PokemonDoc[]>([]);
 
   const queryOption = {
     $or: [

@@ -1,13 +1,9 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { RxDocumentTypeWithRev } from 'rxdb';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
-import { PokemonModel } from '../models/PokemonModel';
 import { ChunkModel } from '../models/ChunkModel';
-import { fetchPokemon } from './fetchPokemon';
 import { useVisableAreaSize } from './useVisibleAreaSize';
+import { fetchPokemon, PokemonDoc } from './fetchPokemon';
 import chunk from '../utils/chunk';
-
-export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
 export function usePokemonChunk(): [
   ChunkModel<PokemonDoc>,
@@ -15,18 +11,18 @@ export function usePokemonChunk(): [
   number,
   number
 ] {
-  const [chunkData, setChunkData] = useState(new ChunkModel<PokemonDoc>());
   const [pokemons, handleSearch] = fetchPokemon();
   const visableAreaSize = useVisableAreaSize(180, 130);
 
-  useEffect(() => {
+  const chunkData = useMemo(() => {
     if (pokemons.length > 0) {
       const data = chunk(pokemons, visableAreaSize.rowSize);
-      setChunkData(new ChunkModel(data));
+      return new ChunkModel(data);
+    } else {
+      return new ChunkModel<PokemonDoc>();
     }
   }, [pokemons, visableAreaSize]);
 
-  console.log(chunkData);
   return [
     chunkData,
     handleSearch,
