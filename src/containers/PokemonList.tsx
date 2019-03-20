@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
@@ -6,29 +6,17 @@ import Search from '../components/Search';
 import PokemonCard from '../components/PokemonCard';
 import PokemonDetail from '../components/PokemonDetail';
 import { useOpenDetail } from '../hooks/useOpenDetail';
-import { getPokemons } from '../hooks/getPokemons';
-import { useVisableAreaSize } from '../hooks/useVisibleAreaSize';
+import { usePokemonChunk } from '../hooks/usePokemonChunk';
 
 const PokemonList: FC = () => {
-  const [search, handleSearch] = useState('');
-  const visableAreaSize = useVisableAreaSize(180, 130);
-  const [chunkSize, setChunkSize] = useState(visableAreaSize.rowSize);
-
-  const [pokemonsChunk] = getPokemons(search, chunkSize);
-
+  const [pokemonChunk, handleSearch, height, width] = usePokemonChunk();
   const [open, types, handleOpen, handleClose] = useOpenDetail();
 
-  const { data: pokemons } = pokemonsChunk;
-
-  useEffect(() => {
-    setChunkSize(visableAreaSize.rowSize);
-  }, [visableAreaSize]);
-
-  console.log(visableAreaSize);
+  console.log('qwe');
 
   const renderRow = ({ index, style }: ListChildComponentProps) => (
     <Grid container direction="row" justify="center" style={style}>
-      {pokemons[index].map(pokemon => {
+      {pokemonChunk.data[index].map(pokemon => {
         return (
           <PokemonCard
             key={pokemon.id}
@@ -46,9 +34,9 @@ const PokemonList: FC = () => {
     <>
       <Search onSearch={handleSearch} />
       <FixedSizeList
-        height={visableAreaSize.height}
-        width={visableAreaSize.width}
-        itemCount={pokemonsChunk.length}
+        height={height}
+        width={width}
+        itemCount={pokemonChunk.length}
         itemSize={200}
       >
         {renderRow}

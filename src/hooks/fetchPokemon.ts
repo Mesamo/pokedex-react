@@ -1,20 +1,14 @@
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RxDocumentTypeWithRev } from 'rxdb';
 
-import { ChunkModel } from '../models/ChunkModel';
 import { PokemonModel } from '../models/PokemonModel';
 import { getPokemonCollections } from '../database';
-import useArrayChunk from './useArrayChunk';
 
 export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
-export function getPokemons(
-  search: string,
-  chunkSize: number = 10
-): [ChunkModel<PokemonDoc>] {
-  const [chunkData, loadData] = useArrayChunk<
-    PokemonDoc
-  >(chunkSize);
+export function fetchPokemon(): [PokemonDoc[], React.Dispatch<React.SetStateAction<string>>] {
+  const [search, setSearch] = useState('');
+  const [pokemons, setPokemons] = useState<PokemonDoc[]>([])
 
   const queryOption = {
     $or: [
@@ -30,14 +24,14 @@ export function getPokemons(
         .exec()
         .then(result => {
           const data = result.map(d => d.toJSON());
-          loadData(data);
+          setPokemons(data);
         })
         .catch(error => {
           console.log(error);
-          loadData([]);
+          setPokemons([]);
         });
     });
   }, [search]);
 
-  return [chunkData];
+  return [pokemons, setSearch];
 }
