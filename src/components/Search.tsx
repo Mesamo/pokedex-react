@@ -75,7 +75,7 @@ const Search: FC<SearchProps> = props => {
 
   const searchBtn = (
     <Tooltip title="Search" placement="top-end">
-      <IconButton className={classes.button} type="Submit" aria-label="Search">
+      <IconButton className={classes.button} type="submit" aria-label="Search">
         <SearchIcon />
       </IconButton>
     </Tooltip>
