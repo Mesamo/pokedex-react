@@ -1,24 +1,22 @@
-import * as RxDB from 'rxdb';
+import { createRxDatabase, RxDatabase, RxCollection, addRxPlugin } from 'rxdb';
 
 import { PokemonModel } from '../models/PokemonModel';
 import { PokemonSchema } from './PokemonSchema';
 
-RxDB.QueryChangeDetector.enableDebugging();
-RxDB.plugin(require('pouchdb-adapter-idb'));
-
-let DB: RxDB.RxDatabase | null = null;
+let DB: RxDatabase | null = null;
+addRxPlugin(require('pouchdb-adapter-idb'));
 
 type OrmMethods = {};
 type StaticMethods = { [key: string]: any };
-type PokemonCollection = RxDB.RxCollection<PokemonModel, OrmMethods, StaticMethods>
+type PokemonCollection = RxCollection<PokemonModel, OrmMethods, StaticMethods>;
 
 const collectionName = 'pokemons';
 
 export async function createDB() {
   if (!DB) {
-    DB = await RxDB.create({
+    DB = await createRxDatabase({
       name: 'pokemons_db',
-      adapter: 'idb'
+      adapter: 'idb',
     });
   }
 
@@ -28,15 +26,16 @@ export async function createDB() {
 export async function getPokemonCollections(): Promise<PokemonCollection> {
   const db = await createDB();
 
+  let collection: PokemonCollection | null = null;
+
   if (db[collectionName]) {
-    return db[collectionName];
+    collection = db[collectionName];
   } else {
-    const collection = await db.collection<PokemonModel, {}, {}>({
+    collection = await db.collection<PokemonModel, OrmMethods, StaticMethods>({
       name: collectionName,
       schema: PokemonSchema
     });
-
-
-    return collection;
   }
+
+  return collection;
 }

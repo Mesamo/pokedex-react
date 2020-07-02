@@ -1,41 +1,54 @@
-import React, { FC, useState } from 'react';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import React, { FC, memo } from 'react';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-import Search from '../components/Search';
-import PokemonListRow from '../components/PokemonListRow';
-import PokemonDetail from '../components/PokemonDetail';
-import { useOpenDetail } from '../hooks/useOpenDetail';
-import { usePokemonChunk } from '../hooks/usePokemonChunk';
+import { PokemonModel } from '../models/PokemonModel';
+import useFindPokemons from '../database/useFindPokemons';
+import { useLoadMore } from '../hooks/useLoadMore';
+import PokemonCard from '../components/PokemonCard';
 
-const PokemonList: FC = () => {
-  const [search, setSearch] = useState('');
-  const [pokemonChunk, height, width] = usePokemonChunk(search);
-  const [open, types, handleOpen, handleClose] = useOpenDetail();
+interface PokemonListProps {
 
-  const renderRow = ({ index, style, data }: ListChildComponentProps) => (
-    <PokemonListRow
-      style={style}
-      data={data.chunk[index]}
-      handleOpen={handleOpen}
-    />
-  );
+  keyword: string;
 
-  console.log('renderer');
+  handleOpen: (pokemon: PokemonModel) => void;
+}
+
+
+const PokemonList: FC<PokemonListProps> = (props) => {
+  const { keyword, handleOpen } = props;
+  const pokemons = useFindPokemons(keyword);
+  const [visiblePokemons, loadMore] = useLoadMore(pokemons);
+
+  const pokemonCards = visiblePokemons.map(pokemon => {
+    return (
+      <PokemonCard
+        key={pokemon.id}
+        pokemon={pokemon}
+        handleOpen={handleOpen}
+      />
+    )
+  });
+
+  const loadMoreContent = visiblePokemons.length < pokemons.length
+    ? <Button variant="contained" color="primary" onClick={loadMore}>Load More...</Button>
+    : <div>No More</div>
+
+  console.log(`renderer PokemonList, pokemons: ${pokemons.length}, visiblePokemons: ${visiblePokemons.length}`);
   return (
     <>
-      <Search onSearch={setSearch} />
-      <FixedSizeList
-        height={height}
-        width={width}
-        itemCount={pokemonChunk.length}
-        itemData={pokemonChunk}
-        itemSize={200}
-      >
-        {renderRow}
-      </FixedSizeList>
-      <PokemonDetail open={open} types={types} handleClose={handleClose} />
+      <Grid container direction="row" justify="center" alignContent="flex-start">
+        {pokemonCards}
+      </Grid>
+      <Box display="flex" justifyContent="center" m={1} p={1}>
+        {loadMoreContent}
+      </Box>
     </>
   );
 };
 
-export default PokemonList;
+export default memo(
+  PokemonList,
+  (prevProps, nextProps) => prevProps.keyword === nextProps.keyword
+);

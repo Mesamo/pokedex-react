@@ -27,7 +27,7 @@ interface DrawerProps extends WithStyles<typeof styles> {
 const Drawer: FC<DrawerProps> = props => {
   const { classes, open, onOpen, onClose } = props;
 
-  const abouthandleClick = () => {
+  const aboutClick = () => {
     onClose();
   };
 
@@ -43,16 +43,7 @@ const Drawer: FC<DrawerProps> = props => {
         </List>
         <Divider />
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <HelpIcon />
-            </ListItemIcon>
-            <ListItemText primary="test test1" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={abouthandleClick}>
+          <ListItem button onClick={aboutClick}>
             <ListItemIcon>
               <HelpIcon />
             </ListItemIcon>

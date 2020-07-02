@@ -13,7 +13,7 @@ const Portal: React.FC<PortalProps> = ({ children, containerId }) => {
     return () => {
       root && root.removeChild(container);
     };
-  }, []);
+  }, [root, container]);
   return ReactDOM.createPortal(children, container);
 };
 

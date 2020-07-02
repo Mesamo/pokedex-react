@@ -4,12 +4,14 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 
+import { PokemonModel } from '../models/PokemonModel';
 import PokemonForm from './PokemonForm';
 import PokemonName from './PokemonName';
 
 const styles = createStyles({
   card: {
     width: 160,
+    height: 184,
     margin: 10
   },
   link: {
@@ -22,44 +24,29 @@ const styles = createStyles({
 
 interface PokemonCardProps extends WithStyles<typeof styles> {
   /**
-   * 宝可梦编号
+   * 宝可梦
    *
-   * @type {number}
+   * @type {PokemonModel}
    * @memberof PokemonCardProps
    */
-  index: number;
-
-  /**
-   * 宝可梦名称
-   *
-   * @type {string}
-   * @memberof PokemonCardProps
-   */
-  name: string;
-
-  /**
-   * 宝可梦属性
-   *
-   * @type {string[]}
-   * @memberof PokemonCardProps
-   */
-  types: string[]
+  pokemon: PokemonModel;
 
   /**
    * 打开详情
    *
    * @memberof PokemonCardProps
    */
-  handleOpen: (types: string[]) => void;
+  handleOpen: (pokemon: PokemonModel) => void;
 }
 
 const PokemonCard: FC<PokemonCardProps> = props => {
-  const { classes, index, name, types, handleOpen } = props;
+  const { classes, pokemon, handleOpen } = props;
 
   const open = () => {
-    handleOpen(types);
+    handleOpen(pokemon);
   }
 
+  const { index, types, name } = pokemon;
   return (
     <Card className={classes.card}>
       <CardActionArea onClick={open}>

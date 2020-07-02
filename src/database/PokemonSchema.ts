@@ -1,6 +1,8 @@
 import { RxJsonSchema } from 'rxdb';
 
 export const PokemonSchema: RxJsonSchema = {
+  title: 'Pokemon Schema',
+  description: 'Describes a simple hero',
   version: 0,
   type: 'object',
   properties: {
@@ -9,12 +11,10 @@ export const PokemonSchema: RxJsonSchema = {
       primary: true
     },
     index: {
-      type: 'number',
-      index: true
+      type: 'number'
     },
     name: {
-      type: 'string',
-      index: true
+      type: 'string'
     },
     types: {
       type: 'array',
@@ -24,5 +24,8 @@ export const PokemonSchema: RxJsonSchema = {
         type: 'string'
       }
     }
+  },
+  attachments: {
+    encrypted: false
   }
 }

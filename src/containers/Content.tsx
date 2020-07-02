@@ -5,7 +5,9 @@ const styles = createStyles({
   content: {
     height: '100%',
     paddingTop: 64,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 

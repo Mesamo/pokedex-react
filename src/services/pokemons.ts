@@ -1,8 +1,8 @@
-import { ajax } from 'rxjs/ajax';
-
 import { PokemonModel } from '../models/PokemonModel';
 
-export function getPokemons() {
-  const url = './data/pokemons.json`';
-  return ajax.getJSON<PokemonModel[]>(url);
+export function getPokemons(): Promise<PokemonModel[]> {
+  const url = './data/pokemons.json';
+  return fetch(url).then((response) => {
+    return response.json()
+  });
 }

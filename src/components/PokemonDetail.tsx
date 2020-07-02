@@ -1,66 +1,34 @@
 import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import BackspaceIcon from '@material-ui/icons/ArrowBack';
+import Paper from '@material-ui/core/Paper';
+// import Grid from '@material-ui/core/Grid';
+// import Skeleton from '@material-ui/lab/Skeleton';
+// import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 
-import DetailTransition from './DetailTransition';
-import { getSpriteBackground } from '../utils/getSpriteBackground';
+import { PokemonModel } from '../models/PokemonModel';
 
 const styles = createStyles({
-  modal: {
+  content: {
+    width: 500,
     height: '100%',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  back: {
-    position: 'absolute',
-    top: 10,
-    left: 10
+    backgroundColor: '#fff'
   }
 });
 
 interface PokemonDetailProps extends WithStyles<typeof styles> {
-  open: boolean;
-  types: string[];
-  handleClose: () => void;
+  pokemon: PokemonModel;
 }
 
 const PokemonDetail: FC<PokemonDetailProps> = props => {
-  const { classes, open, types, handleClose } = props;
-
-  const color = getSpriteBackground(types);
-
-  const onExist = () => {
-    console.log('exist');
-  };
-
-  const onEnter = () => {
-    console.log('enter');
-  };
+  const { classes, pokemon } = props;
 
   return (
-    <Dialog
-      fullScreen
-      open={open}
-      onEnter={onEnter}
-      onExit={onExist}
-      TransitionComponent={DetailTransition}
-      onEscapeKeyDown={handleClose}
-    >
-      <div className={classes.modal} style={{ background: color }}>
-        <IconButton
-          className={classes.back}
-          onClick={handleClose}
-          color="inherit"
-          aria-label="Back"
-        >
-          <BackspaceIcon />
-        </IconButton>
-      </div>
-    </Dialog>
+    <Paper className={classes.content} elevation={3}>
+      <Typography>
+        {pokemon.name}
+      </Typography>
+    </Paper>
   );
 };
 
