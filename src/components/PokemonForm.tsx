@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 import { getSpriteBackground } from '../utils/getSpriteBackground';
-import { getSpriteFormUrl } from '../utils/getSpriteFormUrl';
+import { usePokemonForm } from '../database/usePokemonForm';
 
 const styles = createStyles({
   sprite: {
@@ -14,6 +14,7 @@ const styles = createStyles({
 });
 
 interface PokemonFormProps extends WithStyles<typeof styles> {
+  id: string;
 
   /**
    * Pokemon index
@@ -33,13 +34,13 @@ interface PokemonFormProps extends WithStyles<typeof styles> {
 }
 
 const PokemonForm: FC<PokemonFormProps> = props => {
-  const { classes, index, types } = props;
+  const { classes, id, types } = props;
   const color = getSpriteBackground(types);
-  const url = getSpriteFormUrl(index);
+  const form = usePokemonForm(id);
 
   return (
     <div className={classes.sprite} style={{ background: color }}>
-      <img alt="sprite_form" src={url} />
+      {form ? <img alt="sprite_form" src={URL.createObjectURL(form)} /> : ''}
     </div>
   );
 };

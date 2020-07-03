@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -46,11 +46,12 @@ const PokemonCard: FC<PokemonCardProps> = props => {
     handleOpen(pokemon);
   }
 
-  const { index, types, name } = pokemon;
+  const { id, index, types, name } = pokemon;
+  console.log(`Renderer Pokemon Card, id: ${id}`);
   return (
     <Card className={classes.card}>
       <CardActionArea onClick={open}>
-        <PokemonForm index={index} types={types} />
+        <PokemonForm id={id} index={index} types={types} />
         <CardContent className={classes.content}>
           <PokemonName name={name} />
         </CardContent>
@@ -59,4 +60,7 @@ const PokemonCard: FC<PokemonCardProps> = props => {
   );
 };
 
-export default withStyles(styles)(PokemonCard);
+export default memo(
+  withStyles(styles)(PokemonCard),
+  (prevProps, nextProps) => prevProps.pokemon.id === nextProps.pokemon.id
+);

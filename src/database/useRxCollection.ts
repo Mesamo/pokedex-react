@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { RxCollection } from 'rxdb';
 import useRxDB from './useRxDB';
 
-function useRxCollection<T>(name: string): RxCollection<T> | null {
-	const [collection, setCollection] = useState<RxCollection<T> | null>(null);
+function useRxCollection<T>(name: string): RxCollection<T> | undefined {
+	const [collection, setCollection] = useState<RxCollection<T>>();
 	const db = useRxDB();
 
 	useEffect(() => {

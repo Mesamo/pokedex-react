@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -19,36 +19,23 @@ interface PokemonListProps {
 const PokemonList: FC<PokemonListProps> = (props) => {
   const { keyword, handleOpen } = props;
   const pokemons = useFindPokemons(keyword);
-  const [visiblePokemons, loadMore] = useLoadMore(pokemons);
+  const [data, loadMore] = useLoadMore(pokemons);
 
-  const pokemonCards = visiblePokemons.map(pokemon => {
-    return (
-      <PokemonCard
-        key={pokemon.id}
-        pokemon={pokemon}
-        handleOpen={handleOpen}
-      />
-    )
-  });
-
-  const loadMoreContent = visiblePokemons.length < pokemons.length
-    ? <Button variant="contained" color="primary" onClick={loadMore}>Load More...</Button>
-    : <div>No More</div>
-
-  console.log(`renderer PokemonList, pokemons: ${pokemons.length}, visiblePokemons: ${visiblePokemons.length}`);
+  console.log(`renderer PokemonList, pokemons: ${pokemons.length}, visiblePokemons: ${data.length}`);
   return (
     <>
       <Grid container direction="row" justify="center" alignContent="flex-start">
-        {pokemonCards}
+        {data.map(p => <PokemonCard key={p.id} pokemon={p} handleOpen={handleOpen} />)}
       </Grid>
       <Box display="flex" justifyContent="center" m={1} p={1}>
-        {loadMoreContent}
+        {
+          data.length < pokemons.length
+            ? <Button variant="contained" color="primary" onClick={loadMore}>Load More...</Button>
+            : <div>No More</div>
+        }
       </Box>
     </>
   );
 };
 
-export default memo(
-  PokemonList,
-  (prevProps, nextProps) => prevProps.keyword === nextProps.keyword
-);
+export default PokemonList;
