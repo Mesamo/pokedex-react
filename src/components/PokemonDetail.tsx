@@ -1,9 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-// import Grid from '@material-ui/core/Grid';
-// import Skeleton from '@material-ui/lab/Skeleton';
-// import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
 import { PokemonModel } from '../models/PokemonModel';

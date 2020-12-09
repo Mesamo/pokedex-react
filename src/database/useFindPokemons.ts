@@ -6,8 +6,8 @@ import useRxCollection from '../database/useRxCollection';
 
 export type PokemonDoc = RxDocumentTypeWithRev<PokemonModel>;
 
-export default function(keyword: string) {
-  const [pokemons, setPokemons] = useState<PokemonDoc[]>([]);
+export function useFindPokemons(keyword: string) {
+  const [pokemons, setPokemons] = useState<PokemonModel[]>([]);
   const collection = useRxCollection<PokemonModel>('pokemons');
 
   useEffect(() => {
@@ -29,9 +29,6 @@ export default function(keyword: string) {
         })
         .catch(error => {
           console.log(error);
-        })
-        .finally(() => {
-          // console.log(`useSearchPokemons end`);
         });
     }
   }, [collection, keyword]);

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { RxDatabase } from 'rxdb';
 
 import { PokemonModel } from '../models/PokemonModel';
@@ -10,10 +10,7 @@ import PokemonList from './PokemonList';
 import Provider from '../database/Provider';
 import { useInitDB } from '../database/useInitDB';
 
-// import { useDatabase } from '../hooks/useDatabase';
-
 const Pokedex: FC = () => {
-  // const completed = useDatabase();
   const db = useInitDB();
   const [keyword, setKeyword] = useState('');
   const [open, data, handleOpen, handleClose] = useOpenDetail<PokemonModel>();
@@ -21,10 +18,6 @@ const Pokedex: FC = () => {
   const handleSearch = (keyword: string) => {
     setKeyword(keyword);
   };
-
-  // const content = completed
-  //   ? <PokemonList keyword={keyword} handleOpen={handleOpen} />
-  //   : <Loading />
 
   const renderContent = (db: RxDatabase) => {
     return (

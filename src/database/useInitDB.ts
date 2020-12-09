@@ -44,7 +44,8 @@ export function useInitDB() {
 
   useEffect(() => {
     addRxPlugin(require('pouchdb-adapter-idb'));
-    console.log('init start' + new Date().getSeconds());
+    const start = new Date().getTime();
+    console.log('init start');
     Promise.all([
       initCollection(),
       getPokemons()
@@ -58,7 +59,9 @@ export function useInitDB() {
     .then(([collection]) => {
       const db = collection.database
       setDB(db);
-      console.log('init end' + new Date().getSeconds());
+      const end = new Date().getTime();
+      const duration = (end - start) / 1000;
+      console.log(`init end ${duration}s`);
     });
   }, []);
 
