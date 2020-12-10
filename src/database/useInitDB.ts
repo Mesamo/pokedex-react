@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createRxDatabase, addRxPlugin, RxDatabase, RxCollection } from 'rxdb';
+import { createRxDatabase, addRxPlugin, RxDatabase, RxCollection, CollectionsOfDatabase } from 'rxdb';
 
 import { PokemonModel } from '../models/PokemonModel';
 import { PokemonSchema } from './PokemonSchema';
@@ -9,6 +9,7 @@ const collectionName = 'pokemons';
 
 type OrmMethods = {};
 type StaticMethods = { [key: string]: any };
+type Collection = RxCollection<PokemonModel, OrmMethods, StaticMethods>;
 
 function initCollection() {
   return createRxDatabase({
@@ -22,7 +23,7 @@ function initCollection() {
   });
 }
 
-function upsertPokemons(collection: RxCollection<PokemonModel, OrmMethods, StaticMethods>, pokemons: PokemonModel[]) {
+function upsertPokemons(collection: Collection, pokemons: PokemonModel[], setPercent: (value: string) => void) {
   return collection
     .find()
     .where('id')
@@ -32,15 +33,22 @@ function upsertPokemons(collection: RxCollection<PokemonModel, OrmMethods, Stati
       return pokemons.filter(pokemon => !exists.some(e => e.id === pokemon.id));
     })
     .then(missing => {
-      const bulk = missing.map(pokemon => {
-        return collection.atomicUpsert(pokemon);
+      const total = missing.length;
+      if (total === 0) {
+        setPercent(`1/1`);
+      }
+      const bulk = missing.map((pokemon, index) => {
+        return collection.atomicUpsert(pokemon).then(() => {
+          setPercent(`${index + 1}/${total}`);
+        });
       })
       return Promise.all(bulk);
     });
 }
 
-export function useInitDB() {
+export function useInitDB(): [RxDatabase<CollectionsOfDatabase> | undefined, string] {
   const [db, setDB] = useState<RxDatabase>();
+  const [percent, setPercent] = useState<string>('0/1');
 
   useEffect(() => {
     addRxPlugin(require('pouchdb-adapter-idb'));
@@ -53,7 +61,7 @@ export function useInitDB() {
     .then(([collection, pokemons]) => {
       return Promise.all([
         collection,
-        upsertPokemons(collection, pokemons)
+        upsertPokemons(collection, pokemons, setPercent)
       ])
     })
     .then(([collection]) => {
@@ -65,5 +73,5 @@ export function useInitDB() {
     });
   }, []);
 
-  return db;
+  return [db, percent];
 }

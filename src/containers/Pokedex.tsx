@@ -11,7 +11,7 @@ import Provider from '../database/Provider';
 import { useInitDB } from '../database/useInitDB';
 
 const Pokedex: FC = () => {
-  const db = useInitDB();
+  const [db, percent] = useInitDB();
   const [keyword, setKeyword] = useState('');
   const [open, data, handleOpen, handleClose] = useOpenDetail<PokemonModel>();
 
@@ -21,18 +21,20 @@ const Pokedex: FC = () => {
 
   const renderContent = (db: RxDatabase) => {
     return (
-      <Provider db={db} idAttribute="id" >
-        <PokemonList keyword={keyword} handleOpen={handleOpen} />
-        <PokemonDialog open={open} pokemon={data} handleClose={handleClose} />
-      </Provider>
+      <>
+        <Search onSearch={handleSearch} />
+        <Provider db={db} idAttribute="id" >
+          <PokemonList keyword={keyword} handleOpen={handleOpen} />
+          <PokemonDialog open={open} pokemon={data} handleClose={handleClose} />
+        </Provider>
+      </>
     )
   }
 
   console.log('Pokedex renderer');
   return (
     <>
-      <Search onSearch={handleSearch} />
-      {db ? renderContent(db) : <Loading />}
+      {db ? renderContent(db) : <Loading percent={percent} />}
       <PokemonDialog open={open} pokemon={data} handleClose={handleClose} />
     </>
   )

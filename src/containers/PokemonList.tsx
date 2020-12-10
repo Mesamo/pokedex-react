@@ -15,7 +15,6 @@ interface PokemonListProps {
   handleOpen: (pokemon: PokemonModel) => void;
 }
 
-
 const PokemonList: FC<PokemonListProps> = (props) => {
   const { keyword, handleOpen } = props;
   const pokemons = useFindPokemons(keyword);
@@ -29,7 +28,7 @@ const PokemonList: FC<PokemonListProps> = (props) => {
       </Grid>
       <Box display="flex" justifyContent="center" m={1} p={1}>
         {
-          data.length < pokemons.length
+          data.length > 0 && data.length < pokemons.length
             ? <Button variant="contained" color="primary" onClick={loadMore}>Load More...</Button>
             : <div>No More</div>
         }
