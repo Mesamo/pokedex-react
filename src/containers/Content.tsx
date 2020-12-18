@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   content: {
     height: '100%',
     paddingTop: 64,
@@ -11,9 +11,10 @@ const styles = createStyles({
   }
 });
 
-interface ContentProps extends WithStyles<typeof styles> {}
+interface ContentProps {}
 
-const Content: FC<ContentProps> = ({ classes, children }) => {
+const Content: FC<ContentProps> = ({ children }) => {
+  const classes = useStyles();
   return (
     <div className={classes.content}>
       {children}
@@ -21,4 +22,4 @@ const Content: FC<ContentProps> = ({ classes, children }) => {
   );
 };
 
-export default withStyles(styles)(Content);
+export default Content;

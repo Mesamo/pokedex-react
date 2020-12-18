@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grow from '@material-ui/core/Grow';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   form: {
     display: 'flex',
     justifyContent: 'center',
@@ -34,15 +34,15 @@ const styles = createStyles({
     height: '28px',
     margin: '6px 4px 4px 4px',
   }
-});
+})
 
-interface SearchProps extends WithStyles<typeof styles> {
+interface SearchProps {
   onSearch?: (value: string) => void
 }
 
 const Search: FC<SearchProps> = props => {
-  const { classes, onSearch } = props;
-
+  const { onSearch } = props;
+  const classes = useStyles();
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearch: React.FormEventHandler = event => {
@@ -103,4 +103,4 @@ const Search: FC<SearchProps> = props => {
   );
 };
 
-export default withStyles(styles)(Search);
+export default Search;

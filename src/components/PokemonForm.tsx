@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { getSpriteBackground } from '../utils/getSpriteBackground';
 import { usePokemonForm } from '../database/usePokemonForm';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   sprite: {
     height: 140,
     display: 'flex',
@@ -13,7 +13,7 @@ const styles = createStyles({
   }
 });
 
-interface PokemonFormProps extends WithStyles<typeof styles> {
+interface PokemonFormProps {
   id: string;
 
   /**
@@ -34,9 +34,10 @@ interface PokemonFormProps extends WithStyles<typeof styles> {
 }
 
 const PokemonForm: FC<PokemonFormProps> = props => {
-  const { classes, id, types } = props;
-  const color = getSpriteBackground(types);
+  const { id, types } = props;
+  const classes = useStyles();
   const form = usePokemonForm(id);
+  const color = getSpriteBackground(types);
 
   return (
     <div className={classes.sprite} style={{ background: color }}>
@@ -45,4 +46,4 @@ const PokemonForm: FC<PokemonFormProps> = props => {
   );
 };
 
-export default withStyles(styles)(PokemonForm);
+export default PokemonForm;

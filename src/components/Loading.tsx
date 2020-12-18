@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   loading: {
     margin: '0 16px'
   },
@@ -15,12 +15,13 @@ const styles = createStyles({
   }
 });
 
-interface LoadingProps extends WithStyles<typeof styles> {
+interface LoadingProps {
   percent: string;
 }
 
 const Loading: FC<LoadingProps> = (props) => {
-  const { classes, percent } = props;
+  const { percent } = props;
+  const classes = useStyles();
   const [current, total] = percent.split('/');
   const value = (Number(current) / Number(total)) * 100;
   return (
@@ -34,4 +35,4 @@ const Loading: FC<LoadingProps> = (props) => {
   )
 }
 
-export default withStyles(styles)(Loading);
+export default Loading;

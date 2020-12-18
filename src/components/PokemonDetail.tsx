@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { PokemonModel } from '../models/PokemonModel';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   content: {
     width: 500,
     height: '100%',
@@ -13,12 +13,13 @@ const styles = createStyles({
   }
 });
 
-interface PokemonDetailProps extends WithStyles<typeof styles> {
+interface PokemonDetailProps {
   pokemon: PokemonModel;
 }
 
 const PokemonDetail: FC<PokemonDetailProps> = props => {
-  const { classes, pokemon } = props;
+  const { pokemon } = props;
+  const classes = useStyles();
 
   return (
     <Paper className={classes.content} elevation={3}>
@@ -29,4 +30,4 @@ const PokemonDetail: FC<PokemonDetailProps> = props => {
   );
 };
 
-export default withStyles(styles)(PokemonDetail);
+export default PokemonDetail;

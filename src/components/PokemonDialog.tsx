@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import Zoom from '@material-ui/core/Zoom';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,7 +10,7 @@ import { PokemonModel } from '../models/PokemonModel';
 import { getSpriteBackground } from '../utils/getSpriteBackground';
 import PokemonDetail from './PokemonDetail';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   modal: {
     height: '100%',
     width: '100%',
@@ -26,15 +26,15 @@ const styles = createStyles({
   }
 });
 
-interface PokemonDialogProps extends WithStyles<typeof styles> {
+interface PokemonDialogProps {
   open: boolean;
   pokemon: PokemonModel | undefined;
   handleClose: () => void;
 }
 
 const PokemonDialog: FC<PokemonDialogProps> = props => {
-  const { classes, open, pokemon, handleClose } = props;
-
+  const { open, pokemon, handleClose } = props;
+  const classes = useStyles();
   const color = getSpriteBackground(pokemon ? pokemon.types : []);
 
   const onExist = () => {
@@ -70,4 +70,4 @@ const PokemonDialog: FC<PokemonDialogProps> = props => {
   );
 };
 
-export default withStyles(styles)(PokemonDialog);
+export default PokemonDialog;

@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,7 +8,7 @@ import { PokemonModel } from '../models/PokemonModel';
 import PokemonForm from './PokemonForm';
 import PokemonName from './PokemonName';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   card: {
     width: 160,
     height: 184,
@@ -22,7 +22,7 @@ const styles = createStyles({
   }
 });
 
-interface PokemonCardProps extends WithStyles<typeof styles> {
+interface PokemonCardProps {
   /**
    * 宝可梦
    *
@@ -40,7 +40,8 @@ interface PokemonCardProps extends WithStyles<typeof styles> {
 }
 
 const PokemonCard: FC<PokemonCardProps> = props => {
-  const { classes, pokemon, handleOpen } = props;
+  const { pokemon, handleOpen } = props;
+  const classes = useStyles();
 
   const open = () => {
     handleOpen(pokemon);
@@ -61,6 +62,6 @@ const PokemonCard: FC<PokemonCardProps> = props => {
 };
 
 export default memo(
-  withStyles(styles)(PokemonCard),
+  PokemonCard,
   (prevProps, nextProps) => prevProps.pokemon.id === nextProps.pokemon.id
 );

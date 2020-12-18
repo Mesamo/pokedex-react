@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   name: {
     textTransform: 'capitalize'
   }
 });
 
-interface PokemonNameProps extends WithStyles<typeof styles> {
+interface PokemonNameProps {
 
   /**
    * Pokemon name
@@ -20,7 +20,8 @@ interface PokemonNameProps extends WithStyles<typeof styles> {
 }
 
 const PokemonName: FC<PokemonNameProps> = props => {
-  const { classes, name } = props;
+  const { name } = props;
+  const classes = useStyles();
   return (
     <Typography align="center" className={classes.name}>
       {name}
@@ -28,4 +29,4 @@ const PokemonName: FC<PokemonNameProps> = props => {
   );
 };
 
-export default withStyles(styles)(PokemonName);
+export default PokemonName;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 
-const styles = createStyles({
+const useStyles = makeStyles({
   list: {
     width: '250px'
   },
@@ -18,14 +18,15 @@ const styles = createStyles({
   }
 });
 
-interface DrawerProps extends WithStyles<typeof styles> {
+interface DrawerProps {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
 const Drawer: FC<DrawerProps> = props => {
-  const { classes, open, onOpen, onClose } = props;
+  const { open, onOpen, onClose } = props;
+  const classes = useStyles();
 
   const aboutClick = () => {
     onClose();
@@ -55,4 +56,4 @@ const Drawer: FC<DrawerProps> = props => {
   );
 };
 
-export default withStyles(styles)(Drawer);
+export default Drawer;
